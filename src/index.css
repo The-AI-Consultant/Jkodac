@@ -1,0 +1,519 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --glow-red: 0 0 20px rgba(255, 71, 0, 0.8);
+  --glow-blue: 0 0 20px rgba(0, 200, 255, 0.8);
+  --glow-gold: 0 0 20px rgba(255, 216, 74, 0.8);
+  --gradient-gold: linear-gradient(45deg, #FFD84A, #F99C28);
+  --gradient-energy: linear-gradient(to right, #C84D2A, #F99C28);
+}
+
+@property --gradient-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #FFD84A #0B0B0B;
+}
+
+body {
+  @apply bg-rock-black text-white font-roboto;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-rock-dark;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-rock-gold rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-rock-gold-warm;
+}
+
+/* Common components */
+.section-heading {
+  @apply text-4xl md:text-5xl lg:text-6xl font-cinzel font-black uppercase text-rock-gold my-8 relative tracking-wider;
+  text-shadow: 0 0 15px rgba(255, 216, 74, 0.5);
+}
+
+.content-box {
+  @apply bg-rock-dark/65 backdrop-blur-md border-2 border-rock-gold/50 rounded-sm;
+  position: relative;
+  box-shadow: 
+    0 0 20px rgba(255,216,74,0.3),
+    inset 0 0 15px rgba(255,216,74,0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.content-box:hover {
+  @apply border-rock-gold;
+  box-shadow: 
+    0 0 30px rgba(255,216,74,0.4),
+    inset 0 0 20px rgba(255,216,74,0.2);
+  transform: translateY(-2px);
+}
+
+@keyframes borderRotate {
+  from { --gradient-angle: 0deg; }
+  to { --gradient-angle: 360deg; }
+}
+
+.content-box::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  background: conic-gradient(
+    from var(--gradient-angle),
+    var(--gradient-gold),
+    #C84D2A,
+    var(--gradient-gold)
+  );
+  border-radius: inherit;
+  animation: borderRotate 4s linear infinite;
+  filter: blur(2px);
+}
+
+.menu-item {
+  @apply font-cinzel uppercase tracking-wider text-rock-gold hover:text-rock-gold-warm transition-colors duration-300;
+}
+
+/* Section spacing */
+section {
+  position: relative;
+  margin-bottom: 2rem;
+  isolation: isolate;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url('/attached_assets/BACKGROUND WEBSITE.png') center/cover;
+  opacity: 0.15;
+  mix-blend-mode: color-burn;
+  pointer-events: none;
+  z-index: -1;
+}
+
+
+/* Navigation links */
+.nav-link {
+  @apply relative overflow-hidden font-cinzel uppercase tracking-wider text-white;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-rock-energy-start to-rock-energy-end transition-all duration-300;
+}
+
+.nav-link:hover {
+  @apply text-rock-gold;
+  text-shadow: 0 0 15px rgba(255, 216, 74, 0.4);
+}
+
+.nav-link:hover::after {
+  @apply w-full;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+/* Admin button */
+.admin-button {
+  @apply px-4 py-2 font-cinzel text-sm uppercase tracking-wider text-white/60 hover:text-white/90 transition-all duration-300;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.admin-button:hover {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.header-gradient {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0) 100%);
+  backdrop-filter: blur(5px);
+}
+
+/* Enhanced smoke and glow effects */
+.smoke-effect {
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(circle at 50% 50%, 
+    rgba(255,216,74,0.15) 0%,
+    rgba(200,77,42,0.1) 30%,
+    transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: smokeMove 15s infinite alternate;
+  transform-origin: center;
+}
+
+.smoke-effect-reverse {
+  composes: smoke-effect;
+  animation: smokeMoveReverse 18s infinite alternate;
+  background: radial-gradient(circle at 50% 50%, 
+    rgba(255,71,0,0.1) 0%,
+    rgba(255,216,74,0.08) 40%,
+    transparent 70%);
+}
+
+.glow-wrapper {
+  position: relative;
+}
+
+.glow-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -30px;
+  background: radial-gradient(circle, 
+    rgba(255,216,74,0.3) 0%,
+    rgba(255,71,0,0.2) 50%,
+    transparent 70%);
+  filter: blur(20px);
+  z-index: -1;
+}
+
+.loading-logo {
+  filter: drop-shadow(0 0 15px rgba(255,216,74,0.5));
+}
+
+@keyframes smokeMove {
+  0% { transform: translate(-10%, -10%) rotate(0deg) scale(1); }
+  100% { transform: translate(10%, 10%) rotate(5deg) scale(1.1); }
+}
+
+@keyframes smokeMoveReverse {
+  0% { transform: translate(10%, 10%) rotate(0deg) scale(1.1); }
+  100% { transform: translate(-10%, -10%) rotate(-5deg) scale(1); }
+}
+
+@keyframes smokeMove {
+  0% { transform: translateY(0) scale(1); opacity: 0.5; }
+  100% { transform: translateY(-50px) scale(1.2); opacity: 0.3; }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: var(--glow-gold);
+  }
+  to {
+    box-shadow: 0 0 20px rgba(255, 216, 74, 0.9);
+  }
+}
+
+.photo-item {
+  @apply transform transition-all duration-300;
+}
+
+.photo-item:hover {
+  @apply -translate-y-1 scale-[1.02] shadow-glow-gold;
+}
+
+.mobile-menu-enter {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.mobile-menu-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: all 300ms ease-in-out;
+}
+
+/* Responsive typography */
+@media (max-width: 640px) {
+  .section-heading {
+    @apply text-3xl;
+  }
+}
+
+
+.glow-text {
+  text-shadow: 
+    0 0 10px rgba(255, 216, 74, 0.8),
+    0 0 20px rgba(255, 216, 74, 0.4),
+    0 0 30px rgba(255, 216, 74, 0.2);
+  animation: textPulse 3s ease-in-out infinite;
+}
+
+@keyframes textPulse {
+  0%, 100% { 
+    text-shadow: 
+      0 0 10px rgba(255,216,74,0.8),
+      0 0 20px rgba(255,216,74,0.4);
+  }
+  50% { 
+    text-shadow: 
+      0 0 15px rgba(255,216,74,0.9),
+      0 0 25px rgba(255,216,74,0.6);
+  }
+}
+
+/* Improved photo gallery */
+.photo-item {
+  @apply relative overflow-hidden rounded-sm;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.photo-item:hover {
+  transform: scale(1.02);
+  box-shadow: var(--glow-gold);
+  z-index: 10;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .container {
+    @apply px-4;
+  }
+
+/* Background texture */
+.bg-texture {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/attached_assets/BACKGROUND WEBSITE.png') center/cover;
+  opacity: 0.15;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Smoke effect */
+.typewriter-text {
+  position: relative;
+}
+
+.typewriter-text::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle, rgba(255,216,74,0.2) 0%, transparent 70%);
+  filter: blur(15px);
+  z-index: -1;
+}
+
+.text-glow {
+  text-shadow: 
+    0 0 10px rgba(255,216,74,0.8),
+    0 0 20px rgba(255,216,74,0.5),
+    0 0 30px rgba(255,216,74,0.3);
+  animation: textPulse 2s infinite;
+}
+
+@keyframes textPulse {
+  0%, 100% { text-shadow: 0 0 10px rgba(255,216,74,0.8), 0 0 20px rgba(255,216,74,0.5); }
+  50% { text-shadow: 0 0 15px rgba(255,216,74,0.9), 0 0 25px rgba(255,216,74,0.7); }
+}
+
+.smoke-effect {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0.2) 0%,
+    transparent 60%
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.4;
+  animation: smoke 20s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(40px);
+}
+
+@keyframes smoke {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.1); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+/* Spotlight effect */
+.spotlight-effect {
+  position: fixed;
+  pointer-events: none;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 216, 74, 0.15) 0%,
+    rgba(255, 216, 74, 0.05) 30%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+  z-index: 1;
+  filter: blur(30px);
+  transition: all 0.1s ease;
+}
+
+/* Header gradient blend */
+header.header-gradient {
+  background: linear-gradient(180deg, 
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.7) 50%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  backdrop-filter: blur(5px);
+}
+
+
+  .rock-button {
+    @apply py-3 px-5 text-sm;
+  }
+}
+
+/* Performance optimizations */
+.parallax-bg {
+  @apply will-change-transform;
+  transform: translateZ(0);
+}
+
+/* Improved animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Stage lighting effects */
+.spotlight {
+  @apply absolute w-96 h-96 rounded-full pointer-events-none;
+  background: radial-gradient(
+    circle,
+    rgba(0, 200, 255, 0.3) 0%,
+    rgba(255, 71, 0, 0.2) 50%,
+    transparent 70%
+  );
+}
+
+/* Button styles */
+.rock-button {
+  @apply px-8 py-3 font-cinzel uppercase tracking-wider bg-rock-dark/80 border-2 border-rock-gold text-rock-gold font-bold rounded-sm relative overflow-hidden;
+  text-shadow: 0 0 5px rgba(255, 216, 74, 0.5);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.rock-button::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-r from-rock-energy-start to-rock-energy-end opacity-0;
+  transition: opacity 0.3s ease;
+}
+
+.rock-button:hover {
+  @apply border-rock-gold-warm text-white transform -translate-y-1;
+  box-shadow: 0 0 20px rgba(255,216,74,0.4), 0 5px 15px rgba(200,77,42,0.3);
+}
+
+.rock-button:hover::before {
+  opacity: 1;
+}
+
+/* Text styles */
+/* Enhanced text styles */
+.title-text {
+  @apply font-cinzel font-black uppercase tracking-wider text-rock-gold;
+  text-shadow: 
+    0 0 10px rgba(255,216,74,0.8),
+    0 0 20px rgba(255,216,74,0.4),
+    0 0 30px rgba(255,216,74,0.2);
+  animation: titlePulse 3s ease-in-out infinite;
+}
+
+@keyframes titlePulse {
+  0%, 100% { text-shadow: 0 0 10px rgba(255,216,74,0.8), 0 0 20px rgba(255,216,74,0.4); }
+  50% { text-shadow: 0 0 15px rgba(255,216,74,0.9), 0 0 25px rgba(255,216,74,0.6); }
+}
+
+.subtitle-text {
+  @apply font-cinzel uppercase tracking-wide text-rock-gold-warm;
+  text-shadow: 0 0 15px rgba(249,156,40,0.5);
+  transition: text-shadow 0.3s ease;
+}
+
+.subtitle-text:hover {
+  text-shadow: 0 0 20px rgba(249,156,40,0.8);
+}
+
+.body-text {
+  @apply font-roboto text-white leading-relaxed;
+  text-shadow: 0 0 2px rgba(255,255,255,0.2);
+}
+
+/* Enhanced content box */
+.content-box {
+  @apply bg-rock-dark/65 backdrop-blur-md border-2 border-rock-gold rounded-sm;
+  position: relative;
+  box-shadow: 
+    0 0 20px rgba(255,216,74,0.3),
+    inset 0 0 15px rgba(255,216,74,0.1);
+  transition: all 0.4s ease;
+}
+
+.content-box:hover {
+  box-shadow: 
+    0 0 30px rgba(255,216,74,0.4),
+    inset 0 0 20px rgba(255,216,74,0.2);
+  transform: translateY(-2px);
+}
+
+/* Enhanced button styles */
+.rock-button {
+  @apply px-8 py-3 font-cinzel uppercase tracking-wider bg-rock-dark/80 border-2 border-rock-gold text-rock-gold font-bold rounded-sm;
+  text-shadow: 0 0 5px rgba(255,216,74,0.5);
+  box-shadow: 
+    0 0 15px rgba(255,216,74,0.3),
+    inset 0 0 10px rgba(255,216,74,0.1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.rock-button::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: linear-gradient(45deg, transparent, rgba(255,216,74,0.1), transparent);
+  transform: translateX(-100%) rotate(45deg);
+  transition: transform 0.6s ease;
+}
+
+.rock-button:hover {
+  @apply border-rock-gold-warm text-white;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 0 25px rgba(255,216,74,0.4),
+    inset 0 0 15px rgba(255,216,74,0.2);
+}
+
+.rock-button:hover::before {
+  transform: translateX(100%) rotate(45deg);
+}
